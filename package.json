@@ -1,0 +1,22 @@
+{
+  "name": "ss-react-group-backend",
+  "version": "1.0.0",
+  "description": "React project for SoftServe",
+  "main": "index.js",
+  "scripts": {
+    "serve": "./node_modules/.bin/nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "eslint": "^5.4.0",
+    "express": "^4.16.3",
+    "express-fileupload": "^0.4.0",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.1",
+    "nodemon": "^1.18.3",
+    "sequelize": "^4.38.0"
+  }
+}

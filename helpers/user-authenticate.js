@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 
 function userAuthenticate(body) {
-  const token = jwt.sign(body.json(), process.env.SECRET_KEY, {
+  const token = jwt.sign(body.toJSON(), process.env.SECRET_KEY, {
     expiresIn: 5000,
   });
 

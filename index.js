@@ -3,28 +3,56 @@ const bodyParser = require('body-parser');
 
 // Helpers
 const {
-    synchronizeTable
+  synchronizeTable,
 } = require('./helpers/synchronize-table');
 
-
-
-
+// Initialize express application
 const app = express();
 
-app.use(bodyParser.json());
-app.use(
-    bodyParser.urlencoded({
-        extended: true,
-    }),
+// Create seperate routes for secures and public paths
+const publicRoutes = express.Router();
+const securesRoutes = express.Router();
+
+// Create prefix for all API routes
+app.use('/api/v1/public', publicRoutes);
+app.use('/api/v1/secured', securesRoutes);
+
+// Use bodyParser for public routes
+publicRoutes.use(bodyParser.json());
+publicRoutes.use(
+  bodyParser.urlencoded({
+    extended: true,
+  }),
 );
 
+// User bodyParser for secured routes
+securesRoutes.use(bodyParser.json());
+securesRoutes.use(
+  bodyParser.urlencoded({
+    extended: true,
+  }),
+);
+
+// POST API
+const {
+  addNewPost,
+  updatePost,
+  deletePost,
+  getAllPosts,
+} = require('./controllers/post');
+
+securesRoutes.get('/posts', getAllPosts);
+securesRoutes.post('/add_new_post', addNewPost);
+securesRoutes.patch('/update_post/:id', updatePost);
+securesRoutes.delete('/delete_post/:id', deletePost);
 
 
+// Define port for server
 const PORT = process.env.PORT || 8081;
 
 // Synchronize tables before starting an server
 synchronizeTable();
 
 app.listen(PORT, () => {
-    console.log(`Node Express server listening on http://localhost:${PORT}`);
-})
+  console.log(`Node Express server listening on http://localhost:${PORT}`);
+});

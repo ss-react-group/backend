@@ -9,6 +9,9 @@ const {
 // Initialize express application
 const app = express();
 
+
+process.env.SECRET_KEY = 'h27ao9ej38hdl9';
+
 // Create seperate routes for secures and public paths
 const publicRoutes = express.Router();
 const securesRoutes = express.Router();
@@ -32,6 +35,15 @@ securesRoutes.use(
     extended: true,
   }),
 );
+
+
+// User Authenticate
+const {
+  authorizeUser,
+} = require('./controllers/user');
+
+publicRoutes.post('/user_authenticate', authorizeUser);
+
 
 // POST API
 const {

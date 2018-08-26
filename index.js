@@ -59,6 +59,15 @@ securesRoutes.patch('/update_post/:id', updatePost);
 securesRoutes.delete('/delete_post/:id', deletePost);
 
 
+// User API
+const {
+  getUserDetails,
+  updateUserDetails,
+} = require('./controllers/user');
+
+securesRoutes.get('/user/:id', getUserDetails);
+securesRoutes.patch('/user/:id', updateUserDetails);
+
 // Define port for server
 const PORT = process.env.PORT || 8081;
 

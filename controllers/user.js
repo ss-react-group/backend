@@ -72,6 +72,12 @@ function getUserDetails(req, res) {
     .catch(err => res.status(500).send(err));
 }
 
+
+/**
+ * Update user details
+ * @param {*} req
+ * @param {*} res
+ */
 function updateUserDetails(req, res) {
   const {
     params,
@@ -82,10 +88,10 @@ function updateUserDetails(req, res) {
     id,
   } = params;
 
-  const spreadedData = { ...body,
-  };
+  // Spread body to get each new proeprty => value
+  const spreadedData = { ...body,};
 
-
+  // Update user with spreaded data
   const updateUserById = User.update(
     spreadedData, {
       where: {

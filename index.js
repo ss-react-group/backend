@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
 
 // Helpers
 const {
@@ -9,6 +11,8 @@ const {
 // Initialize express application
 const app = express();
 
+
+app.use(cors());
 
 process.env.SECRET_KEY = 'h27ao9ej38hdl9';
 

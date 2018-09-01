@@ -18,12 +18,17 @@ function addNewPost(req, res) {
     content,
   } = body;
 
-  Post.create({
+  const createNewPost = Post.create({
     authorId,
     content,
-  }).then((createdPost) => {
-    res.status(200).send(createdPost);
   });
+
+
+  createNewPost
+    .then((createdPost) => {
+      res.status(200).send(createdPost);
+    })
+    .catch(err => res.status(500).send(err));
 }
 
 /**
@@ -37,6 +42,8 @@ function getAllPosts(req, res) {
   findAllPost
     .then((allPosts) => {
       if (allPosts.length > 0) {
+
+        
         res.status(200).send(allPosts);
       } else {
         res.status(404).send([]);
@@ -66,13 +73,19 @@ function updatePost(req, res) {
     content,
   } = body;
 
-  Post.update({
+
+  const update = Post.update({
     content,
   }, {
     where: {
       id,
     },
-  }).then(updatedPost => res.status(200).send(updatedPost));
+  });
+
+
+  update
+    .then(updatedPost => res.status(200).send(updatedPost))
+    .catch(err => res.status(500).send(err));
 }
 
 /**
@@ -90,24 +103,27 @@ function deletePost(req, res) {
     id,
   } = params;
 
-
-  Post.destroy({
+  const destroyPost = Post.destroy({
     where: {
       id,
     },
-  }).then((deletedPosts) => {
-    const findAllPosts = Post.findAll();
-
-
-    findAllPosts
-      .then((allPosts) => {
-        if (allPosts.length > 0) {
-          res.status(200).send(allPosts);
-        }
-        res.status(404).send([]);
-      })
-      .catch(err => res.status(500).send(err));
   });
+
+
+  destroyPost
+    .then((deletedPosts) => {
+      const findAllPosts = Post.findAll();
+
+      findAllPosts
+        .then((allPosts) => {
+          if (allPosts.length > 0) {
+            res.status(200).send(allPosts);
+          }
+          res.status(404).send([]);
+        })
+        .catch(err => res.status(500).send(err));
+    })
+    .catch(err => res.status(500).send(err));
 }
 
 module.exports = {

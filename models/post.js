@@ -17,6 +17,14 @@ const Post = sequelize.define('posts', {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  commentsCount: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+  },
+  likesCount: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+  },
 });
 
 module.exports = {

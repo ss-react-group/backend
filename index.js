@@ -72,6 +72,17 @@ const {
 securesRoutes.get('/user/:id', getUserDetails);
 securesRoutes.patch('/user/:id', updateUserDetails);
 
+
+// Comment API
+
+const {
+  addNewComment,
+  getCommentForPost,
+} = require('./controllers/comment');
+
+
+securesRoutes.post('/add_new_comment', addNewComment);
+securesRoutes.get('/comment/:postId', getCommentForPost);
 // Define port for server
 const PORT = process.env.PORT || 8081;
 

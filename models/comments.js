@@ -10,8 +10,16 @@ const Comment = sequelize.define('comments', {
     autoIncrement: true,
     primaryKey: true,
   },
-  commentId: {
+  postId: {
     type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  authorId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  content: {
+    type: Sequelize.STRING,
     allowNull: false,
   },
 });

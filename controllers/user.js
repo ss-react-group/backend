@@ -43,7 +43,10 @@ function authorizeUser(req, res) {
       .then((sprededResponse) => {
         const token = userAuthenticate(sprededResponse);
 
-        res.status(200).send(token);
+        res.status(200).send({
+          sprededResponse,
+          token,
+        });
       });
   }
 }

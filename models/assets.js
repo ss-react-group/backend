@@ -4,27 +4,23 @@ const {
 } = require('../db');
 
 
-const Comment = sequelize.define('comments', {
+const Asset = sequelize.define('assets', {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
-  postId: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  authorId: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  content: {
+  filePath: {
     type: Sequelize.STRING,
+    allowNull: false,
+  },
+  relatedTo: {
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
 });
 
 
 module.exports = {
-  Comment,
+  Asset,
 };

@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
+const fileupload = require('express-fileupload');
 
 // Helpers
 const {
@@ -13,6 +13,8 @@ const app = express();
 
 
 app.use(cors());
+app.use(fileupload());
+
 
 process.env.SECRET_KEY = 'h27ao9ej38hdl9';
 
@@ -83,6 +85,17 @@ const {
 
 securesRoutes.post('/add_new_comment', addNewComment);
 securesRoutes.get('/comment/:postId', getCommentForPost);
+
+
+// Assets API
+const {
+  fileUpload,
+} = require('./controllers/assets');
+
+
+securesRoutes.post('/file_upload', fileUpload);
+
+
 // Define port for server
 const PORT = process.env.PORT || 8081;
 

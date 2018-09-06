@@ -14,8 +14,17 @@ const Asset = sequelize.define('assets', {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  relatedTo: {
+});
+
+
+const AssetType = sequelize.define('assets_type', {
+  id: {
     type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  type: {
+    type: Sequelize.STRING,
     allowNull: false,
   },
 });
@@ -23,4 +32,5 @@ const Asset = sequelize.define('assets', {
 
 module.exports = {
   Asset,
+  AssetType,
 };

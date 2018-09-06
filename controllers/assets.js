@@ -1,6 +1,7 @@
 const fs = require('fs');
 const {
   Asset,
+  AssetType,
 } = require('../models/assets');
 
 
@@ -16,10 +17,21 @@ const {
 function fileUpload(req, res) {
   // Check if file exsist
 
-  if (req.files) {
+  const {
+    params,
+  } = req;
+
+
+  if (req.files && params.typeId && params.userId) {
     const {
       files,
     } = req;
+
+
+    const {
+      typeId,
+      userId,
+    } = params;
 
 
     // Check if tmp folder exist
@@ -39,15 +51,59 @@ function fileUpload(req, res) {
       if (err) {
         res.status(500).send('Error');
       }
-      res.status(200).send({
-        path,
+
+      const createNewAsset = Asset.create({
+        filePath: path,
+        user_id: userId,
+        type_id: typeId,
       });
+
+      createNewAsset
+        .then(createdAsset => res.status(200).send(createdAsset));
     });
   } else {
     res.status(500).send('Cannot find any files');
   }
 }
 
+
+function addNewAssetType(req, res) {
+  const {
+    body,
+  } = req;
+
+
+  if (body) {
+    const {
+      type,
+    } = body;
+
+    if (type && type !== '') {
+      const findOrCreate = AssetType.findOrCreate({
+        where: {
+          type,
+        },
+        defaults: {
+          type,
+        },
+      });
+
+      findOrCreate
+        .spread(assetType => assetType)
+        .then((spreadedResponse) => {
+          res.status(200).send({
+            spreadedResponse,
+          });
+        });
+    } else {
+      res.status(500).send('No type in body');
+    }
+  } else {
+    res.status(500).send('No Body');
+  }
+}
+
 module.exports = {
   fileUpload,
+  addNewAssetType,
 };

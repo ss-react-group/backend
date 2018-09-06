@@ -21,10 +21,12 @@ process.env.SECRET_KEY = 'h27ao9ej38hdl9';
 // Create seperate routes for secures and public paths
 const publicRoutes = express.Router();
 const securesRoutes = express.Router();
+const postmanRoutes = express.Router();
 
 // Create prefix for all API routes
 app.use('/api/v1/public', publicRoutes);
 app.use('/api/v1/secured', securesRoutes);
+app.use('/postman', postmanRoutes);
 
 // Use bodyParser for public routes
 publicRoutes.use(bodyParser.json());
@@ -34,7 +36,7 @@ publicRoutes.use(
   }),
 );
 
-// User bodyParser for secured routes
+// Use bodyParser for secured routes
 securesRoutes.use(bodyParser.json());
 securesRoutes.use(
   bodyParser.urlencoded({
@@ -42,6 +44,14 @@ securesRoutes.use(
   }),
 );
 
+
+// Use bodyParser for postman routes
+postmanRoutes.use(bodyParser.json());
+postmanRoutes.use(
+  bodyParser.urlencoded({
+    extended: true,
+  }),
+);
 
 // User Authenticate
 const {
@@ -93,8 +103,15 @@ const {
 } = require('./controllers/assets');
 
 
-securesRoutes.post('/file_upload', fileUpload);
+securesRoutes.post('/file_upload/:typeId/:userId', fileUpload);
 
+
+// To use only in POSTMAN!
+const {
+  addNewAssetType,
+} = require('./controllers/assets');
+
+postmanRoutes.post('/asset_type/new', addNewAssetType);
 
 // Define port for server
 const PORT = process.env.PORT || 8081;

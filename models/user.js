@@ -20,6 +20,14 @@ const User = sequelize.define('users', {
   lastName: {
     type: Sequelize.STRING,
   },
+  location: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  birthday: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
 });
 
 

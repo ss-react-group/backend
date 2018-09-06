@@ -53,13 +53,6 @@ postmanRoutes.use(
   }),
 );
 
-// User Authenticate
-const {
-  authorizeUser,
-} = require('./controllers/user');
-
-publicRoutes.post('/user_authenticate', authorizeUser);
-
 
 // POST API
 const {
@@ -80,7 +73,12 @@ const {
   getUserDetails,
   updateUserDetails,
 } = require('./controllers/user');
+// User Authenticate
+const {
+  authorizeUser,
+} = require('./controllers/user');
 
+publicRoutes.post('/user_authenticate', authorizeUser);
 securesRoutes.get('/user/:id', getUserDetails);
 securesRoutes.patch('/user/:id', updateUserDetails);
 

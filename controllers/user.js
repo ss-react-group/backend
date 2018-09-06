@@ -24,8 +24,9 @@ function authorizeUser(req, res) {
       email,
       firstName,
       lastName,
+      location,
+      birthday,
     } = body;
-
 
     const findOrCreateUser = User.findOrCreate({
       where: {
@@ -35,6 +36,8 @@ function authorizeUser(req, res) {
         email,
         firstName,
         lastName,
+        location,
+        birthday,
       },
     });
 

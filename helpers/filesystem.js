@@ -27,13 +27,6 @@ function moveFiles(oldPath, newPath) {
    * @param {function} reject Reject function
    * @param {function} resolve Resolve function
    */
-  function fileRename(reject, resolve) {
-    fs.rename(oldPath, newPath + fileName, (err) => {
-      if (err) reject(err);
-      resolve(newPath + fileName);
-    });
-  }
-
   return new Promise((resolve, reject) => {
     if (!pathExist) {
       fs.mkdir(newPath, () => {

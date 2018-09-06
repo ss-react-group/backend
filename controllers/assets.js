@@ -7,6 +7,7 @@ const {
 
 const {
   checkIfPathExist,
+  moveFiles,
 } = require('../helpers/filesystem');
 
 /**
@@ -50,23 +51,34 @@ function fileUpload(req, res) {
     files.file.mv(path, (err) => {
       if (err) {
         res.status(500).send('Error');
+      } else {
+        const fileNewPath = moveFiles(path, `assets/${new Date().getTime()}/`);
+
+
+        fileNewPath
+          .then((newPath) => {
+            const createNewAsset = Asset.create({
+              filePath: newPath,
+              user_id: userId,
+              type_id: typeId,
+            });
+
+            createNewAsset
+              .then(createdAsset => res.status(200).send(createdAsset))
+              .catch(createAssetError => res.status(500).send(createAssetError));
+          });
       }
-
-      const createNewAsset = Asset.create({
-        filePath: path,
-        user_id: userId,
-        type_id: typeId,
-      });
-
-      createNewAsset
-        .then(createdAsset => res.status(200).send(createdAsset));
     });
   } else {
     res.status(500).send('Cannot find any files');
   }
 }
 
-
+/**
+ * Add new asset type (ONLY BY POSTMAN)
+ * @param {} req HTTP request
+ * @param {} res HTTP response
+ */
 function addNewAssetType(req, res) {
   const {
     body,

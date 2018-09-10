@@ -1,6 +1,12 @@
+const Sequelize = require('Sequelize');
+
 const {
   Post,
 } = require('../models/post');
+
+const {
+  Op,
+} = Sequelize;
 
 
 /**
@@ -42,8 +48,6 @@ function getAllPosts(req, res) {
   findAllPost
     .then((allPosts) => {
       if (allPosts.length > 0) {
-
-        
         res.status(200).send(allPosts);
       } else {
         res.status(404).send([]);
@@ -126,9 +130,36 @@ function deletePost(req, res) {
     .catch(err => res.status(500).send(err));
 }
 
+
+function searchPostByContext(req, res) {
+  const {
+    body,
+  } = req;
+
+
+  if (body && body !== null) {
+    const {
+      context,
+    } = body;
+
+
+    const findPostByContext = Post.findAll({
+      where: {
+        content: {
+          [Op.like]: `%${context}%`,
+        },
+      },
+    });
+
+    findPostByContext
+      .then(response => res.status(200).send(response));
+  }
+}
+
 module.exports = {
   addNewPost,
   updatePost,
   deletePost,
   getAllPosts,
+  searchPostByContext,
 };

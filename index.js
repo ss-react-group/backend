@@ -60,13 +60,14 @@ const {
   updatePost,
   deletePost,
   getAllPosts,
+  searchPostByContext,
 } = require('./controllers/post');
 
 securesRoutes.get('/posts', getAllPosts);
 securesRoutes.post('/add_new_post', addNewPost);
 securesRoutes.patch('/update_post/:id', updatePost);
 securesRoutes.delete('/delete_post/:id', deletePost);
-
+securesRoutes.post('/search_post', searchPostByContext);
 
 // User API
 const {

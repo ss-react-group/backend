@@ -9,10 +9,6 @@ const Post = sequelize.define('posts', {
     autoIncrement: true,
     primaryKey: true,
   },
-  authorId: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
   content: {
     type: Sequelize.STRING,
     allowNull: false,

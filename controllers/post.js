@@ -5,6 +5,10 @@ const {
 } = require('../models/post');
 
 const {
+  User,
+} = require('../models/user');
+
+const {
   Op,
 } = Sequelize;
 
@@ -25,7 +29,7 @@ function addNewPost(req, res) {
   } = body;
 
   const createNewPost = Post.create({
-    authorId,
+    author_id: authorId,
     content,
   });
 
@@ -43,8 +47,11 @@ function addNewPost(req, res) {
  * @param {*} res
  */
 function getAllPosts(req, res) {
-  const findAllPost = Post.findAll();
-
+  const findAllPost = Post.findAll({
+    include: [{
+      model: User,
+    }],
+  });
   findAllPost
     .then((allPosts) => {
       if (allPosts.length > 0) {
@@ -52,8 +59,10 @@ function getAllPosts(req, res) {
       } else {
         res.status(404).send([]);
       }
-    })
-    .catch(err => res.status(500).send(err));
+    });
+  // .catch((err) => {
+  //   res.status(500).send(err);
+  // });
 }
 
 

@@ -107,6 +107,7 @@ function updateUserDetails(req, res) {
   );
 
   updateUserById
+    .then(updatedUserID => User.findById(updatedUserID[0]))
     .then(updatedUser => res.status(200).send(updatedUser))
     .catch(err => res.status(500).send(err));
 }

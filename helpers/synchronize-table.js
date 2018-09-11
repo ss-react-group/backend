@@ -12,6 +12,10 @@ const {
   AssetType,
 } = require('../models/assets');
 
+const {
+  sequelize,
+} = require('../db');
+
 function synchronizeTable() {
   // Relations
   Asset.belongsTo(User, {
@@ -21,7 +25,6 @@ function synchronizeTable() {
   Asset.belongsTo(AssetType, {
     foreignKey: 'type_id',
   });
-
 
   Comment.belongsTo(Post, {
     foreignKey: 'post_id',
@@ -38,12 +41,8 @@ function synchronizeTable() {
   Post.belongsTo(User, {
     foreignKey: 'author_id',
   });
-  // Tables defines
-  User.sync();
-  Post.sync();
-  Comment.sync();
-  AssetType.sync();
-  Asset.sync();
+
+  sequelize.sync();
 }
 
 module.exports = {

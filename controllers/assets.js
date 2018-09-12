@@ -57,10 +57,16 @@ function fileUpload(req, res) {
 
         fileNewPath
           .then((newPath) => {
-            const createNewAsset = Asset.create({
-              filePath: newPath,
-              user_id: userId,
-              type_id: typeId,
+            const createNewAsset = Asset.findOrCreate({
+              where: {
+                user_id: userId,
+                type_id: typeId,
+              },
+              defaults: {
+                filePath: newPath,
+                user_id: userId,
+                type_id: typeId,
+              },
             });
 
             createNewAsset

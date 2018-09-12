@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const fileupload = require('express-fileupload');
+const path = require('path');
 
 // Helpers
 const {
@@ -12,6 +13,7 @@ const {
 const app = express();
 
 
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use(cors());
 app.use(fileupload());
 

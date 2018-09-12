@@ -69,8 +69,25 @@ function fileUpload(req, res) {
               },
             });
 
+
             createNewAsset
-              .then(createdAsset => res.status(200).send(createdAsset))
+              .spread((result, created) => {
+                if (created) {
+                  res.status(200).send(result);
+                } else {
+                  const updateAssetsPromise = Asset.update({
+                    filePath: newPath,
+                  }, {
+                    where: {
+                      user_id: userId,
+                      type_id: typeId,
+                    },
+                  });
+
+                  updateAssetsPromise
+                    .then(updated => res.status(200).send(updated));
+                }
+              })
               .catch(createAssetError => res.status(500).send(createAssetError));
           });
       }

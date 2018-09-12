@@ -6,6 +6,9 @@
   "scripts": {
     "start": "./node_modules/.bin/nodemon index.js"
   },
+  "engines": {
+    "node": "9.6.1"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

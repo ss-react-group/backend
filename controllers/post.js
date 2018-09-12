@@ -9,6 +9,16 @@ const {
 } = require('../models/user');
 
 const {
+  Comment,
+} = require('../models/comments');
+
+
+const {
+  Asset,
+  AssetType,
+} = require('../models/assets');
+
+const {
   Op,
 } = Sequelize;
 
@@ -41,6 +51,7 @@ function addNewPost(req, res) {
     .catch(err => res.status(500).send(err));
 }
 
+
 /**
  * Get all posts
  * @param {*} req
@@ -49,12 +60,32 @@ function addNewPost(req, res) {
 function getAllPosts(req, res) {
   const findAllPost = Post.findAll({
     include: [{
-      model: User,
-    }],
+        model: User,
+        include: [{
+          model: Asset,
+          include: [{
+            model: AssetType,
+          }],
+        }],
+      },
+      {
+        model: Comment,
+        include: [{
+          model: User,
+          include: [{
+            model: Asset,
+            include: [{
+              model: AssetType,
+            }],
+          }],
+        }],
+      },
+    ],
   });
   findAllPost
     .then((allPosts) => {
-      if (allPosts.length > 0) {
+      const allPostsLength = allPosts.length;
+      if (allPostsLength > 0) {
         res.status(200).send(allPosts);
       } else {
         res.status(404).send([]);

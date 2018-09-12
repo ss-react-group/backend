@@ -18,9 +18,11 @@ const {
 
 function synchronizeTable() {
   // Relations
-  Asset.belongsTo(User, {
-    foreignKey: 'user_id',
-  });
+  // Asset.belongsTo(User, {
+  //   foreignKey: 'user_id',
+  // });
+
+  User.hasMany(Asset);
 
   Asset.belongsTo(AssetType, {
     foreignKey: 'type_id',
@@ -41,6 +43,15 @@ function synchronizeTable() {
   Post.belongsTo(User, {
     foreignKey: 'author_id',
   });
+
+  Post.hasMany(Comment, {
+    foreignKey: 'post_id',
+  });
+
+  // Post.hasOne(Asset, {
+  //   foreignKey: 'avatar_id',
+  // });
+
 
   sequelize.sync();
 }

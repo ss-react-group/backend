@@ -82,9 +82,17 @@ function fileUpload(req, res) {
                       user_id: userId,
                       type_id: typeId,
                     },
+                    returning: true,
+                    plain: true,
                   });
 
                   updateAssetsPromise
+                    .then(updatedAssets => Asset.findOne({
+                      where: {
+                        user_id: userId,
+                        type_id: typeId,
+                      },
+                    }))
                     .then(updated => res.status(200).send(updated));
                 }
               })

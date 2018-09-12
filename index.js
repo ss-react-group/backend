@@ -99,10 +99,12 @@ securesRoutes.get('/comment/:postId', getCommentForPost);
 // Assets API
 const {
   fileUpload,
+  getAsset,
 } = require('./controllers/assets');
 
 
 securesRoutes.post('/file_upload/:typeId/:userId', fileUpload);
+securesRoutes.get('/assets/:userId/:typeId', getAsset);
 
 
 // To use only in POSTMAN!

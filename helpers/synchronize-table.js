@@ -19,7 +19,9 @@ const {
 function synchronizeTable() {
   // Relations
 
-  User.hasMany(Asset);
+  User.hasMany(Asset, {
+    foreignKey: 'user_id',
+  });
 
   Asset.belongsTo(AssetType, {
     foreignKey: 'type_id',

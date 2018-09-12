@@ -93,7 +93,8 @@ function fileUpload(req, res) {
                         type_id: typeId,
                       },
                     }))
-                    .then(updated => res.status(200).send(updated));
+                    .then(updated => res.status(200).send(updated))
+                    .catch(err => res.status(200).send(err));
                 }
               })
               .catch(createAssetError => res.status(500).send(createAssetError));

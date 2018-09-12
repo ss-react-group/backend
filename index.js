@@ -103,7 +103,7 @@ const {
 } = require('./controllers/assets');
 
 
-securesRoutes.post('/file_upload/:typeId/:userId', fileUpload);
+securesRoutes.post('/file_upload/:userId/:typeId', fileUpload);
 securesRoutes.get('/assets/:userId/:typeId', getAsset);
 
 

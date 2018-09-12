@@ -60,6 +60,17 @@ function addNewPost(req, res) {
 function getAllPosts(req, res) {
   const findAllPost = Post.findAll({
     include: [{
+      model: User,
+      include: [{
+        model: Asset,
+        include: [{
+          model: AssetType,
+        }],
+      }],
+    },
+    {
+      model: Comment,
+      include: [{
         model: User,
         include: [{
           model: Asset,
@@ -67,19 +78,8 @@ function getAllPosts(req, res) {
             model: AssetType,
           }],
         }],
-      },
-      {
-        model: Comment,
-        include: [{
-          model: User,
-          include: [{
-            model: Asset,
-            include: [{
-              model: AssetType,
-            }],
-          }],
-        }],
-      },
+      }],
+    },
     ],
   });
   findAllPost
@@ -90,10 +90,10 @@ function getAllPosts(req, res) {
       } else {
         res.status(404).send([]);
       }
+    })
+    .catch((err) => {
+      res.status(500).send(err);
     });
-  .catch((err) => {
-    res.status(500).send(err);
-  });
 }
 
 

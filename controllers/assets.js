@@ -115,7 +115,35 @@ function addNewAssetType(req, res) {
   }
 }
 
+
+function getAsset(req, res) {
+  const {
+    params,
+  } = req;
+
+  const {
+    userId,
+    typeId,
+  } = params;
+
+
+  if (userId && typeId) {
+    const assetPromise = Asset.findOne({
+      where: {
+        user_id: userId,
+        type_id: typeId,
+      },
+    });
+
+
+    assetPromise
+      .then(foundedAsset => res.status(200).send(foundedAsset))
+      .catch(err => res.status(500).send(err));
+  }
+}
+
 module.exports = {
   fileUpload,
   addNewAssetType,
+  getAsset,
 };

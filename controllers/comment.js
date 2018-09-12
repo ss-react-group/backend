@@ -3,6 +3,9 @@ const {
 } = require('../models/comments');
 
 const {
+  User,
+} = require('../models/user');
+const {
   Post,
 } = require('../models/post');
 
@@ -27,10 +30,10 @@ function addNewComment(req, res) {
   const findPostById = Post.findById(postId);
 
   findPostById
-    .then((foundedPost) => {
+    .then(() => {
       const createNewComment = Comment.create({
-        postId,
-        authorId,
+        post_id: postId,
+        author_id: authorId,
         content,
       });
 
@@ -54,8 +57,11 @@ function getCommentForPost(req, res) {
 
   const findAllMatchingComments = Comment.findAll({
     where: {
-      postId,
+      post_id: postId,
     },
+    include: [{
+      model: User,
+    }],
   });
 
   findAllMatchingComments

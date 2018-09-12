@@ -1,4 +1,4 @@
-const Sequelize = require('Sequelize');
+const Sequelize = require('sequelize');
 
 const {
   Post,
@@ -60,17 +60,6 @@ function addNewPost(req, res) {
 function getAllPosts(req, res) {
   const findAllPost = Post.findAll({
     include: [{
-      model: User,
-      include: [{
-        model: Asset,
-        include: [{
-          model: AssetType,
-        }],
-      }],
-    },
-    {
-      model: Comment,
-      include: [{
         model: User,
         include: [{
           model: Asset,
@@ -78,8 +67,19 @@ function getAllPosts(req, res) {
             model: AssetType,
           }],
         }],
-      }],
-    },
+      },
+      {
+        model: Comment,
+        include: [{
+          model: User,
+          include: [{
+            model: Asset,
+            include: [{
+              model: AssetType,
+            }],
+          }],
+        }],
+      },
     ],
   });
   findAllPost

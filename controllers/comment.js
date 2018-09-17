@@ -2,6 +2,9 @@ const {
   Comment,
 } = require('../models/comments');
 
+/**
+ * Models
+ */
 const {
   User,
 } = require('../models/user');
@@ -40,7 +43,8 @@ function addNewComment(req, res) {
           res.status(200).send(createdNewComment);
         })
         .catch(err => res.status(500).send(err));
-    });
+    })
+    .catch(err => res.status(500).send(err));
 }
 
 /**
@@ -68,8 +72,13 @@ function getCommentForPost(req, res) {
 
   findAllMatchingComments
     .then((mathingComments) => {
-      res.send(mathingComments);
-    });
+      if (mathingComments.length > 0) {
+        res.status(200).send(mathingComments);
+      } else {
+        res.status(404).send([]);
+      }
+    })
+    .catch(err => res.status(500).send(err));
 }
 
 /**

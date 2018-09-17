@@ -1,10 +1,16 @@
 const fs = require('fs');
+
+/**
+ * Models
+ */
 const {
   Asset,
   AssetType,
 } = require('../models/assets');
 
-
+/**
+ * Helpers
+ */
 const {
   checkIfPathExist,
   moveFiles,
@@ -40,7 +46,7 @@ function fileUpload(req, res) {
       try {
         fs.mkdirSync('tmp/');
       } catch (err) {
-        res.send(err);
+        res.status(500).send(err);
       }
     }
 
@@ -50,7 +56,7 @@ function fileUpload(req, res) {
     // Move file into tmp folder
     files.file.mv(path, (err) => {
       if (err) {
-        res.status(500).send('Error');
+        res.status(500).send(err);
       } else {
         const fileNewPath = moveFiles(path, `assets/${new Date().getTime()}/`);
 
@@ -94,11 +100,12 @@ function fileUpload(req, res) {
                       },
                     }))
                     .then(updated => res.status(200).send(updated))
-                    .catch(err => res.status(200).send(err));
+                    .catch(updatedAssetsPromiseError => res.status(500).send(updatedAssetsPromiseError));
                 }
               })
               .catch(createAssetError => res.status(500).send(createAssetError));
-          });
+          })
+          .catch(createNewError => res.status(500).send(createNewError));
       }
     });
   } else {
@@ -138,7 +145,8 @@ function addNewAssetType(req, res) {
           res.status(200).send({
             spreadedResponse,
           });
-        });
+        })
+        .catch(err => res.status(200).send(err));
     } else {
       res.status(500).send('No type in body');
     }

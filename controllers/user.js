@@ -58,7 +58,11 @@ function registerUser(req, res) {
       });
   }
 }
-
+/**
+ * Log In userś
+ * @param {*} req
+ * @param {*} res
+ */
 function loginUser(req, res) {
   const {
     body,

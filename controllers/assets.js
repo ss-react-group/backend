@@ -87,7 +87,7 @@ function fileUpload(req, res) {
                   });
 
                   updateAssetsPromise
-                    .then(updatedAssets => Asset.findOne({
+                    .then(() => Asset.findOne({
                       where: {
                         user_id: userId,
                         type_id: typeId,
@@ -147,7 +147,9 @@ function addNewAssetType(req, res) {
   }
 }
 
-
+/**
+ * Get all assets
+ */
 function getAsset(req, res) {
   const {
     params,
@@ -173,9 +175,34 @@ function getAsset(req, res) {
       .catch(err => res.status(500).send(err));
   }
 }
+/**
+ * Get assets types
+ * @param {*} req
+ * @param {*} res
+ */
+function getAssetType(req, res) {
+  const {
+    body,
+  } = req;
+
+  if (body) {
+    const findAllAssetsTypes = AssetType.findAll();
+
+    findAllAssetsTypes
+      .then((assetsTypes) => {
+        if (assetsTypes.length > 0) {
+          res.status(200).send(assetsTypes);
+        } else {
+          res.status(404).send([]);
+        }
+      })
+      .catch(err => res.status(500).send(err));
+  }
+}
 
 module.exports = {
   fileUpload,
   addNewAssetType,
+  getAssetType,
   getAsset,
 };

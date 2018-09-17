@@ -12,11 +12,9 @@ const {
 // Initialize express application
 const app = express();
 
-
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use(cors());
 app.use(fileupload());
-
 
 process.env.SECRET_KEY = 'h27ao9ej38hdl9';
 
@@ -52,7 +50,6 @@ const {
 
 securesRoutes.use(jwtValidate);
 
-
 // Use bodyParser for postman routes
 postmanRoutes.use(bodyParser.json());
 postmanRoutes.use(
@@ -60,7 +57,6 @@ postmanRoutes.use(
     extended: true,
   }),
 );
-
 
 // POST API
 const {
@@ -88,12 +84,10 @@ const {
   loginUser,
 } = require('./controllers/user');
 
-
 publicRoutes.post('/user_register', registerUser);
 publicRoutes.post('/user_login', loginUser);
 securesRoutes.get('/user/:id', getUserDetails);
 securesRoutes.patch('/user/:id', updateUserDetails);
-
 
 // Comment API
 
@@ -103,22 +97,20 @@ const {
   increaseLikeCounts,
 } = require('./controllers/comment');
 
-
 securesRoutes.post('/add_new_comment', addNewComment);
 securesRoutes.get('/comment/:postId', getCommentForPost);
 securesRoutes.patch('/comment/likes/:commentId/:likesCount', increaseLikeCounts);
-
 
 // Assets API
 const {
   fileUpload,
   getAsset,
+  getAssetType,
 } = require('./controllers/assets');
-
 
 securesRoutes.post('/file_upload/:userId/:typeId', fileUpload);
 securesRoutes.get('/assets/:userId/:typeId', getAsset);
-
+securesRoutes.get('/assets/type', getAssetType);
 
 // To use only in POSTMAN!
 const {

@@ -2,7 +2,6 @@ const {
   User,
 } = require('../models/user');
 
-
 const {
   userAuthenticate,
 } = require('../helpers/user-authenticate');
@@ -18,7 +17,6 @@ function registerUser(req, res) {
     body,
   } = req;
 
-
   if (body) {
     const {
       email,
@@ -29,7 +27,6 @@ function registerUser(req, res) {
       description,
       password,
     } = body;
-
 
     const findOrCreateUser = User.findOrCreate({
       attributes: {
@@ -58,7 +55,8 @@ function registerUser(req, res) {
           sprededResponse,
           token,
         });
-      });
+      })
+      .catch(error => res.status(500).send(error));
   }
 }
 /**
@@ -76,7 +74,6 @@ function loginUser(req, res) {
       email,
       password,
     } = body;
-
 
     const findMatching = User.findOne({
       attributes: {

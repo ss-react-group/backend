@@ -19,13 +19,11 @@ function addNewComment(req, res) {
     body,
   } = req;
 
-
   const {
     postId,
     authorId,
     content,
   } = body;
-
 
   const findPostById = Post.findById(postId);
 
@@ -45,7 +43,11 @@ function addNewComment(req, res) {
     });
 }
 
-
+/**
+ * Get comments for post
+ * @param {*} req
+ * @param {*} res
+ */
 function getCommentForPost(req, res) {
   const {
     params,
@@ -70,7 +72,11 @@ function getCommentForPost(req, res) {
     });
 }
 
-
+/**
+ * Increase likeCounts
+ * @param {*} req
+ * @param {*} res
+ */
 function increaseLikeCounts(req, res) {
   const {
     params,

@@ -12,7 +12,6 @@ const {
   Comment,
 } = require('../models/comments');
 
-
 const {
   Asset,
   AssetType,
@@ -42,7 +41,6 @@ function addNewPost(req, res) {
     author_id: authorId,
     content,
   });
-
 
   createNewPost
     .then((createdPost) => {
@@ -82,6 +80,7 @@ function getAllPosts(req, res) {
     },
     ],
   });
+
   findAllPost
     .then((allPosts) => {
       const allPostsLength = allPosts.length;

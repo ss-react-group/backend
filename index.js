@@ -90,7 +90,6 @@ securesRoutes.get('/user/:id', getUserDetails);
 securesRoutes.patch('/user/:id', updateUserDetails);
 
 // Comment API
-
 const {
   addNewComment,
   getCommentForPost,
@@ -110,7 +109,7 @@ const {
 
 securesRoutes.post('/file_upload/:userId/:typeId', fileUpload);
 securesRoutes.get('/assets/:userId/:typeId', getAsset);
-securesRoutes.get('/assets/type', getAssetType);
+securesRoutes.get('/assets/types', getAssetType);
 
 // To use only in POSTMAN!
 const {

@@ -76,6 +76,7 @@ function loginUser(req, res) {
 
 
     const findMatching = User.findOne({
+      attributes: ['id', 'email', 'firstName', 'lastName', 'location', 'birthday', 'createdAt', 'updatedAt'],
       where: {
         email,
         password,
@@ -85,7 +86,12 @@ function loginUser(req, res) {
     findMatching
       .then((foundedUser) => {
         if (foundedUser !== null) {
-          res.status(200).send(foundedUser);
+
+          const token = userAuthenticate(foundedUser);
+          res.status(200).send({
+            foundedUser,
+            token,
+          });
         } else {
           res.status(404).send('Cannot find user by given email and password');
         }
@@ -134,7 +140,8 @@ function updateUserDetails(req, res) {
   } = params;
 
   // Spread body to get each new proeprty => value
-  const spreadedData = { ...body,};
+  const spreadedData = { ...body,
+  };
 
   // Update user with spreaded data
   const updateUserById = User.update(

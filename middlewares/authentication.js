@@ -18,7 +18,6 @@ function jwtValidate(req, res, next) {
   }
 }
 
-
 module.exports = {
   jwtValidate,
 };

@@ -46,7 +46,7 @@ function addNewPost(req, res) {
 
   createNewPost
     .then((createdPost) => {
-      res.status(200).send(createdPost);
+      res.status(201).send(createdPost);
     })
     .catch(err => res.status(500).send(err));
 }

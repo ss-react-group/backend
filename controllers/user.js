@@ -30,6 +30,7 @@ function authorizeUser(req, res) {
       password,
     } = body;
 
+
     const findOrCreateUser = User.findOrCreate({
       where: {
         email,
@@ -50,7 +51,6 @@ function authorizeUser(req, res) {
       .spread(user => user)
       .then((sprededResponse) => {
         const token = userAuthenticate(sprededResponse);
-
         res.status(200).send({
           sprededResponse,
           token,

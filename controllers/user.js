@@ -32,6 +32,9 @@ function registerUser(req, res) {
 
 
     const findOrCreateUser = User.findOrCreate({
+      attributes: {
+        exclude: ['password'],
+      },
       where: {
         email,
         password,
@@ -76,7 +79,9 @@ function loginUser(req, res) {
 
 
     const findMatching = User.findOne({
-      attributes: ['id', 'email', 'firstName', 'lastName', 'location', 'birthday', 'createdAt', 'updatedAt'],
+      attributes: {
+        exclude: ['password'],
+      },
       where: {
         email,
         password,
@@ -86,7 +91,6 @@ function loginUser(req, res) {
     findMatching
       .then((foundedUser) => {
         if (foundedUser !== null) {
-
           const token = userAuthenticate(foundedUser);
           res.status(200).send({
             foundedUser,
@@ -140,8 +144,7 @@ function updateUserDetails(req, res) {
   } = params;
 
   // Spread body to get each new proeprty => value
-  const spreadedData = { ...body,
-  };
+  const spreadedData = { ...body,};
 
   // Update user with spreaded data
   const updateUserById = User.update(

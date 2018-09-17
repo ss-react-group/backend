@@ -84,10 +84,13 @@ const {
 } = require('./controllers/user');
 // User Authenticate
 const {
-  authorizeUser,
+  registerUser,
+  loginUser,
 } = require('./controllers/user');
 
-publicRoutes.post('/user_authenticate', authorizeUser);
+
+publicRoutes.post('/user_register', registerUser);
+publicRoutes.post('/user_login', loginUser);
 securesRoutes.get('/user/:id', getUserDetails);
 securesRoutes.patch('/user/:id', updateUserDetails);
 

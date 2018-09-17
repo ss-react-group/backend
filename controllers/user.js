@@ -13,7 +13,7 @@ const {
  * @param {*} req
  * @param {*} res
  */
-function authorizeUser(req, res) {
+function registerUser(req, res) {
   const {
     body,
   } = req;
@@ -56,6 +56,37 @@ function authorizeUser(req, res) {
           token,
         });
       });
+  }
+}
+
+function loginUser(req, res) {
+  const {
+    body,
+  } = req;
+
+  if (body) {
+    const {
+      email,
+      password,
+    } = body;
+
+
+    const findMatching = User.findOne({
+      where: {
+        email,
+        password,
+      },
+    });
+
+    findMatching
+      .then((foundedUser) => {
+        if (foundedUser !== null) {
+          res.status(200).send(foundedUser);
+        } else {
+          res.status(404).send('Cannot find user by given email and password');
+        }
+      })
+      .catch(err => res.status(500).send(err));
   }
 }
 
@@ -118,7 +149,8 @@ function updateUserDetails(req, res) {
 
 
 module.exports = {
-  authorizeUser,
+  registerUser,
   getUserDetails,
   updateUserDetails,
+  loginUser,
 };

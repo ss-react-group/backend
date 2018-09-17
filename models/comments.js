@@ -9,6 +9,11 @@ const Comment = sequelize.define('comments', {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  likesCount: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+    defaultValue: 0,
+  },
 });
 
 

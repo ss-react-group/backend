@@ -91,11 +91,13 @@ securesRoutes.patch('/user/:id', updateUserDetails);
 const {
   addNewComment,
   getCommentForPost,
+  increaseLikeCounts,
 } = require('./controllers/comment');
 
 
 securesRoutes.post('/add_new_comment', addNewComment);
 securesRoutes.get('/comment/:postId', getCommentForPost);
+securesRoutes.patch('/comment/likes/:commentId/:likesCount', increaseLikeCounts);
 
 
 // Assets API

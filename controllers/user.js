@@ -26,11 +26,14 @@ function authorizeUser(req, res) {
       lastName,
       location,
       birthday,
+      description,
+      password,
     } = body;
 
     const findOrCreateUser = User.findOrCreate({
       where: {
         email,
+        password,
       },
       defaults: {
         email,
@@ -38,6 +41,7 @@ function authorizeUser(req, res) {
         lastName,
         location,
         birthday,
+        description,
       },
     });
 
@@ -72,7 +76,6 @@ function getUserDetails(req, res) {
 
   findUserById
     .then((foundedUser) => {
-      console.log(foundedUser);
       res.status(200).send(foundedUser);
     })
     .catch(err => res.status(500).send(err));
@@ -95,7 +98,8 @@ function updateUserDetails(req, res) {
   } = params;
 
   // Spread body to get each new proeprty => value
-  const spreadedData = { ...body,};
+  const spreadedData = { ...body,
+  };
 
   // Update user with spreaded data
   const updateUserById = User.update(

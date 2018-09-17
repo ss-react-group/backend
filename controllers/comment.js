@@ -70,7 +70,36 @@ function getCommentForPost(req, res) {
     });
 }
 
+
+function increaseLikeCounts(req, res) {
+  const {
+    params,
+  } = req;
+
+  const {
+    commentId,
+    likesCount,
+  } = params;
+
+  if (commentId && commentId !== '') {
+    const updateMatchinComment = Comment.update({
+      likesCount,
+    }, {
+      where: {
+        commentId,
+      },
+    });
+
+
+    updateMatchinComment
+      .then(() => Comment.findAll())
+      .then(allComments => res.status(200).send(allComments))
+      .catch(err => res.status(500).send(err));
+  }
+}
+
 module.exports = {
   addNewComment,
   getCommentForPost,
+  increaseLikeCounts,
 };

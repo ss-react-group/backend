@@ -46,6 +46,12 @@ securesRoutes.use(
   }),
 );
 
+const {
+  jwtValidate,
+} = require('./middlewares/authentication');
+
+securesRoutes.use(jwtValidate);
+
 
 // Use bodyParser for postman routes
 postmanRoutes.use(bodyParser.json());

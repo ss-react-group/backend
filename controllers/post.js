@@ -56,19 +56,9 @@ function addNewPost(req, res) {
  * @param {*} res
  */
 function getAllPosts(req, res) {
+  console.log(req)
   const findAllPost = Post.findAll({
     include: [{
-      model: User,
-      include: [{
-        model: Asset,
-        include: [{
-          model: AssetType,
-        }],
-      }],
-    },
-    {
-      model: Comment,
-      include: [{
         model: User,
         include: [{
           model: Asset,
@@ -76,8 +66,19 @@ function getAllPosts(req, res) {
             model: AssetType,
           }],
         }],
-      }],
-    },
+      },
+      {
+        model: Comment,
+        include: [{
+          model: User,
+          include: [{
+            model: Asset,
+            include: [{
+              model: AssetType,
+            }],
+          }],
+        }],
+      },
     ],
   });
 

@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const fileupload = require('express-fileupload');
 const path = require('path');
+const firebase = require('firebase');
+
 
 // Helpers
 const {

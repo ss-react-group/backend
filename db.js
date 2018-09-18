@@ -13,6 +13,7 @@ const sequelize = new Sequelize('m1314_react', 'm1314_react', 'zaq1@WSXPDt2k4o9'
   },
 });
 
+
 module.exports = {
   sequelize,
 };

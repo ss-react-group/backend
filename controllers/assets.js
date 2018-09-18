@@ -16,6 +16,7 @@ const {
   moveFiles,
 } = require('../helpers/filesystem');
 
+
 /**
  * Upload file, save in tmp folder
  * @param {} req Http request
@@ -26,18 +27,19 @@ function fileUpload(req, res) {
   const {
     params,
   } = req;
+  console.log(req)
 
-
+  console.log(params)
   if (req.files && params.typeId && params.userId) {
     const {
       files,
     } = req;
+    console.log(files);
 
     const {
       typeId,
       userId,
     } = params;
-
 
     // Check if tmp folder exist
     if (!checkIfPathExist('tmp/')) {

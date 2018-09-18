@@ -3,6 +3,10 @@ const {
 } = require('../models/user');
 
 const {
+  Asset,
+} = require('../models/assets');
+
+const {
   userAuthenticate,
 } = require('../helpers/user-authenticate');
 
@@ -31,6 +35,9 @@ function registerUser(req, res) {
       attributes: {
         exclude: ['password'],
       },
+      include: [{
+        model: Asset,
+      }],
       where: {
         email,
       },
@@ -76,6 +83,9 @@ function loginUser(req, res) {
       attributes: {
         exclude: ['password'],
       },
+      include: [{
+        model: Asset,
+      }],
       where: {
         email,
         password,
@@ -84,6 +94,7 @@ function loginUser(req, res) {
 
     findMatching
       .then((foundUser) => {
+        console.log(foundUser);
         if (foundUser !== null) {
           const token = userAuthenticate(foundUser);
           res.status(200).send({

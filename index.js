@@ -16,6 +16,7 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use(cors());
 app.use(fileupload());
 
+
 process.env.SECRET_KEY = 'h27ao9ej38hdl9';
 
 // Create seperate routes for secures and public paths
@@ -46,6 +47,7 @@ securesRoutes.use(
     extended: true,
   }),
 );
+
 
 const {
   jwtValidate,

@@ -23,7 +23,6 @@ const {
  */
 function fileUpload(req, res) {
   // Check if file exsist
-
   const {
     params,
   } = req;
@@ -33,7 +32,6 @@ function fileUpload(req, res) {
     const {
       files,
     } = req;
-
 
     const {
       typeId,
@@ -99,13 +97,13 @@ function fileUpload(req, res) {
                         type_id: typeId,
                       },
                     }))
-                    .then(updated => res.status(200).send(updated))
-                    .catch(updatedAssetsPromiseError => res.status(500).send(updatedAssetsPromiseError));
+                    .then((updated) => {
+                      res.status(200).send(updated);
+                    })
+                    .catch(updateAssetsPromiseError => res.send(updateAssetsPromiseError));
                 }
-              })
-              .catch(createAssetError => res.status(500).send(createAssetError));
-          })
-          .catch(createNewError => res.status(500).send(createNewError));
+              });
+          });
       }
     });
   } else {
@@ -122,7 +120,6 @@ function addNewAssetType(req, res) {
   const {
     body,
   } = req;
-
 
   if (body) {
     const {
@@ -168,7 +165,6 @@ function getAsset(req, res) {
     typeId,
   } = params;
 
-
   if (userId && typeId) {
     const assetPromise = Asset.findOne({
       where: {
@@ -176,7 +172,6 @@ function getAsset(req, res) {
         type_id: typeId,
       },
     });
-
 
     assetPromise
       .then(foundedAsset => res.status(200).send(foundedAsset))

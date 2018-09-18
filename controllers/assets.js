@@ -27,14 +27,12 @@ function fileUpload(req, res) {
   const {
     params,
   } = req;
-  console.log(req)
 
-  console.log(params)
+  console.log(req);
   if (req.files && params.typeId && params.userId) {
     const {
       files,
     } = req;
-    console.log(files);
 
     const {
       typeId,
@@ -59,7 +57,7 @@ function fileUpload(req, res) {
         res.status(500).send(err);
       } else {
         const fileNewPath = moveFiles(path, `assets/${new Date().getTime()}/`);
-
+        console.log(req);
 
         fileNewPath
           .then((newPath) => {

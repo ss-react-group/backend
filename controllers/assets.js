@@ -103,7 +103,8 @@ function fileUpload(req, res) {
                     .catch(updateAssetsPromiseError => res.send(updateAssetsPromiseError));
                 }
               });
-          });
+          })
+          .catch(err => res.status(500).send(err));
       }
     });
   } else {

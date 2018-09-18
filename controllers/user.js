@@ -123,7 +123,10 @@ function getUserDetails(req, res) {
     id,
   } = params;
 
-  const findUserById = User.findById(id, {
+  const findUserById = User.find({
+    where: {
+      id,
+    },
     attributes: {
       exclude: ['password'],
     },
@@ -156,8 +159,7 @@ function updateUserDetails(req, res) {
   } = params;
 
   // Spread body to get each new proeprty => value
-  const spreadedData = { ...body,
-  };
+  const spreadedData = { ...body,};
 
   // Update user with spreaded data
   const updateUserById = User.update(

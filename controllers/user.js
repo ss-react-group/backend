@@ -49,10 +49,10 @@ function registerUser(req, res) {
 
     findOrCreateUser
       .spread(user => user)
-      .then((sprededResponse) => {
-        const token = userAuthenticate(sprededResponse);
+      .then((spreadedResponse) => {
+        const token = userAuthenticate(spreadedResponse);
         res.status(200).send({
-          sprededResponse,
+          spreadedResponse,
           token,
         });
       })
@@ -86,15 +86,15 @@ function loginUser(req, res) {
     });
 
     findMatching
-      .then((foundedUser) => {
-        if (foundedUser !== null) {
-          const token = userAuthenticate(foundedUser);
+      .then((foundUser) => {
+        if (foundUser !== null) {
+          const token = userAuthenticate(foundUser);
           res.status(200).send({
-            foundedUser,
+            foundUser,
             token,
           });
         } else {
-          res.status(404).send('Cannot find user by given email and password');
+          res.status(200).send('Cannot find user by given email and password');
         }
       })
       .catch(err => res.status(500).send(err));
@@ -122,8 +122,8 @@ function getUserDetails(req, res) {
   });
 
   findUserById
-    .then((foundedUser) => {
-      res.status(200).send(foundedUser);
+    .then((foundUser) => {
+      res.status(200).send(foundUser);
     })
     .catch(err => res.status(500).send(err));
 }
@@ -145,7 +145,8 @@ function updateUserDetails(req, res) {
   } = params;
 
   // Spread body to get each new proeprty => value
-  const spreadedData = { ...body,};
+  const spreadedData = { ...body,
+  };
 
   // Update user with spreaded data
   const updateUserById = User.update(

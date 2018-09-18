@@ -87,7 +87,7 @@ function getAllPosts(req, res) {
       if (allPostsLength > 0) {
         res.status(200).send(allPosts);
       } else {
-        res.status(404).send([]);
+        res.status(200).send([]);
       }
     })
     .catch((err) => {
@@ -162,7 +162,7 @@ function deletePost(req, res) {
           if (allPosts.length > 0) {
             res.status(200).send(allPosts);
           }
-          res.status(404).send([]);
+          res.status(200).send([]);
         })
         .catch(err => res.status(500).send(err));
     })
@@ -195,7 +195,7 @@ function searchPostByContext(req, res) {
         if (response.length > 0) {
           res.status(200).send(response);
         } else {
-          res.status(404).send([]);
+          res.status(200).send([]);
         }
       })
       .catch(err => res.status(500).send(err));

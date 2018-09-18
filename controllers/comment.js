@@ -75,7 +75,7 @@ function getCommentForPost(req, res) {
       if (mathingComments.length > 0) {
         res.status(200).send(mathingComments);
       } else {
-        res.status(404).send([]);
+        res.status(200).send([]);
       }
     })
     .catch(err => res.status(500).send(err));

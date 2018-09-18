@@ -4,6 +4,7 @@ const {
 
 const {
   Asset,
+  AssetType,
 } = require('../models/assets');
 
 const {
@@ -132,6 +133,9 @@ function getUserDetails(req, res) {
     },
     include: [{
       model: Asset,
+      include: [{
+        model: AssetType,
+      }],
     }],
   });
 

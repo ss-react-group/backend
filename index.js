@@ -37,9 +37,12 @@ publicRoutes.use(
 );
 
 // Use bodyParser for secured routes
-securesRoutes.use(bodyParser.json());
+securesRoutes.use(bodyParser.json({
+  limit: '50mb',
+}));
 securesRoutes.use(
   bodyParser.urlencoded({
+    limit: '50mb',
     extended: true,
   }),
 );

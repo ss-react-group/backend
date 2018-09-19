@@ -3,25 +3,37 @@ const {
   AssetType,
 } = require('../models/assets');
 
-function setDefaultImages(userId) {
+function setDefaultImages(spreadedResponse, req, res, token) {
   const getAllAssetTypes = AssetType.findAll();
 
   getAllAssetTypes
     .then((assetTypes) => {
       const assetTypeLength = assetTypes.length;
-
+      const asstesPromises = [];
       for (let i = 0; i < assetTypeLength; i += 1) {
         const assetType = assetTypes[i];
 
-        const createDefaultUserAssets = Asset.create({
-          filePath: `/assets/static/${assetType.type}.jpg`,
-          user_id: userId,
-          type_id: assetType.id,
+        const createDefaultUserAssets = Asset.findOrCreate({
+          where: {
+            user_id: spreadedResponse.id,
+            type_id: assetType.id,
+          },
+          defaults: {
+            filePath: `assets/static/${assetType.type}.jpg`,
+            user_id: spreadedResponse.id,
+            type_id: assetType.id,
+          },
         });
 
-        createDefaultUserAssets
-          .then(res => console.log('created default assets ', res));
+        asstesPromises.push(createDefaultUserAssets);
       }
+
+      Promise.all(asstesPromises).then(() => {
+        res.status(200).send({
+          spreadedResponse,
+          token,
+        });
+      });
     });
 }
 

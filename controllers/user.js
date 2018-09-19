@@ -42,6 +42,9 @@ function registerUser(req, res) {
       },
       include: [{
         model: Asset,
+        include: [{
+          model: AssetType,
+        }],
       }],
       where: {
         email,
@@ -60,13 +63,7 @@ function registerUser(req, res) {
       .spread(user => user)
       .then((spreadedResponse) => {
         const token = userAuthenticate(spreadedResponse);
-
-        setDefaultImages(spreadedResponse.id);
-
-        res.status(200).send({
-          spreadedResponse,
-          token,
-        });
+        setDefaultImages(spreadedResponse, req, res, token);
       })
       .catch(error => res.status(500).send(error));
   }
@@ -170,7 +167,8 @@ function updateUserDetails(req, res) {
   } = params;
 
   // Spread body to get each new proeprty => value
-  const spreadedData = { ...body,};
+  const spreadedData = { ...body,
+  };
 
   // Update user with spreaded data
   const updateUserById = User.update(

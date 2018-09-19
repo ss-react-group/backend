@@ -4,7 +4,7 @@
   "description": "React project for SoftServe",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/nodemon index.js"
+    "start": "./node_modules/.bin/nodemon app.js"
   },
   "engines": {
     "node": "9.6.1",

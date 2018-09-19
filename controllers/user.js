@@ -185,7 +185,7 @@ function updateUserDetails(req, res) {
         id,
       },
     }))
-    .then(updatedUser => res.status(200).send({ updatedUser }))
+    .then(updatedUser => res.status(200).send(updatedUser))
     .catch(err => res.status(500).send(err));
 }
 

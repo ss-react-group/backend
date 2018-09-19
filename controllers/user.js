@@ -34,6 +34,7 @@ function registerUser(req, res) {
       location,
       birthday,
       description,
+      password,
     } = body;
 
     const findOrCreateUser = User.findOrCreate({
@@ -56,6 +57,7 @@ function registerUser(req, res) {
         location,
         birthday,
         description,
+        password,
       },
     });
 
@@ -99,7 +101,6 @@ function loginUser(req, res) {
 
     findMatching
       .then((foundUser) => {
-        console.log(foundUser);
         if (foundUser !== null) {
           const token = userAuthenticate(foundUser);
           res.status(200).send({
@@ -167,8 +168,7 @@ function updateUserDetails(req, res) {
   } = params;
 
   // Spread body to get each new proeprty => value
-  const spreadedData = { ...body,
-  };
+  const spreadedData = { ...body,};
 
   // Update user with spreaded data
   const updateUserById = User.update(

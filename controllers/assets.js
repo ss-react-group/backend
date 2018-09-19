@@ -56,8 +56,6 @@ function fileUpload(req, res) {
         res.status(500).send(err);
       } else {
         const fileNewPath = moveFiles(path, `assets/${new Date().getTime()}/`);
-        console.log(req);
-
         fileNewPath
           .then((newPath) => {
             const createNewAsset = Asset.findOrCreate({
@@ -95,6 +93,9 @@ function fileUpload(req, res) {
                         user_id: userId,
                         type_id: typeId,
                       },
+                      include: [{
+                        model: AssetType,
+                      }],
                     }))
                     .then((updated) => {
                       res.status(200).send(updated);

@@ -15,7 +15,6 @@ const {
   setDefaultImages,
 } = require('../helpers/user-default-settings');
 
-
 /**
  * Authorize user by given email
  * @param {*} req
@@ -63,9 +62,13 @@ function registerUser(req, res) {
 
     findOrCreateUser
       .spread(user => user)
-      .then((spreadedResponse) => {
-        const token = userAuthenticate(spreadedResponse);
-        setDefaultImages(spreadedResponse, req, res, token);
+      .then((foundUser) => {
+        const token = userAuthenticate(foundUser);
+        // setDefaultImages(spreadedResponse, req, res, token);
+        res.status(200).send({
+          token,
+          foundUser,
+        });
       })
       .catch(error => res.status(500).send(error));
   }
@@ -154,7 +157,6 @@ function getUserDetails(req, res) {
     .catch(err => res.status(500).send(err));
 }
 
-
 /**
  * Update user details
  * @param {*} req
@@ -174,23 +176,20 @@ function updateUserDetails(req, res) {
   const spreadedData = { ...body,};
 
   // Update user with spreaded data
-  const updateUserById = User.update(
-    spreadedData, {
-      attributes: {
-        exclude: ['password'],
-      },
-      where: {
-        id,
-      },
+  const updateUserById = User.update(spreadedData, {
+    attributes: {
+      exclude: ['password'],
     },
-  );
+    where: {
+      id,
+    },
+  });
 
   updateUserById
     .then(updatedUserID => User.findById(updatedUserID[0]))
     .then(updatedUser => res.status(200).send(updatedUser))
     .catch(err => res.status(500).send(err));
 }
-
 
 module.exports = {
   registerUser,

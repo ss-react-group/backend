@@ -28,7 +28,6 @@ function fileUpload(req, res) {
     params,
   } = req;
 
-  console.log(req);
   if (req.files && params.typeId && params.userId) {
     const {
       files,

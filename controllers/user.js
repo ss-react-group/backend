@@ -11,6 +11,10 @@ const {
   userAuthenticate,
 } = require('../helpers/user-authenticate');
 
+const {
+  setDefaultImages,
+} = require('../helpers/user-default-settings');
+
 
 /**
  * Authorize user by given email
@@ -56,6 +60,9 @@ function registerUser(req, res) {
       .spread(user => user)
       .then((spreadedResponse) => {
         const token = userAuthenticate(spreadedResponse);
+
+        setDefaultImages(spreadedResponse.id);
+
         res.status(200).send({
           spreadedResponse,
           token,

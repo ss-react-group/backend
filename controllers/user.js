@@ -1,19 +1,10 @@
-const {
-  User,
-} = require('../models/user');
+const { User } = require('../models/user');
 
-const {
-  Asset,
-  AssetType,
-} = require('../models/assets');
+const { Asset, AssetType } = require('../models/assets');
 
-const {
-  userAuthenticate,
-} = require('../helpers/user-authenticate');
+const { userAuthenticate } = require('../helpers/user-authenticate');
 
-const {
-  setDefaultImages,
-} = require('../helpers/user-default-settings');
+const { setDefaultImages } = require('../helpers/user-default-settings');
 
 /**
  * Authorize user by given email
@@ -21,31 +12,27 @@ const {
  * @param {*} res
  */
 function registerUser(req, res) {
-  const {
-    body,
-  } = req;
+  const { body } = req;
 
   if (body) {
     const {
-      email,
-      firstName,
-      lastName,
-      location,
-      birthday,
-      description,
-      password,
+      email, firstName, lastName, location, birthday, description, password,
     } = body;
 
     const findOrCreateUser = User.findOrCreate({
       attributes: {
         exclude: ['password'],
       },
-      include: [{
-        model: Asset,
-        include: [{
-          model: AssetType,
-        }],
-      }],
+      include: [
+        {
+          model: Asset,
+          include: [
+            {
+              model: AssetType,
+            },
+          ],
+        },
+      ],
       where: {
         email,
       },
@@ -79,26 +66,25 @@ function registerUser(req, res) {
  * @param {*} res
  */
 function loginUser(req, res) {
-  const {
-    body,
-  } = req;
+  const { body } = req;
 
   if (body) {
-    const {
-      email,
-      password,
-    } = body;
+    const { email, password } = body;
 
     const findMatching = User.findOne({
       attributes: {
         exclude: ['password'],
       },
-      include: [{
-        model: Asset,
-        include: [{
-          model: AssetType,
-        }],
-      }],
+      include: [
+        {
+          model: Asset,
+          include: [
+            {
+              model: AssetType,
+            },
+          ],
+        },
+      ],
       where: {
         email,
         password,
@@ -127,13 +113,9 @@ function loginUser(req, res) {
  * @param {*} res
  */
 function getUserDetails(req, res) {
-  const {
-    params,
-  } = req;
+  const { params } = req;
 
-  const {
-    id,
-  } = params;
+  const { id } = params;
 
   const findUserById = User.find({
     where: {
@@ -142,12 +124,16 @@ function getUserDetails(req, res) {
     attributes: {
       exclude: ['password'],
     },
-    include: [{
-      model: Asset,
-      include: [{
-        model: AssetType,
-      }],
-    }],
+    include: [
+      {
+        model: Asset,
+        include: [
+          {
+            model: AssetType,
+          },
+        ],
+      },
+    ],
   });
 
   findUserById
@@ -163,17 +149,12 @@ function getUserDetails(req, res) {
  * @param {*} res
  */
 function updateUserDetails(req, res) {
-  const {
-    params,
-    body,
-  } = req;
+  const { params, body } = req;
 
-  const {
-    id,
-  } = params;
+  const { id } = params;
 
   // Spread body to get each new proeprty => value
-  const spreadedData = { ...body,};
+  const spreadedData = { ...body };
 
   // Update user with spreaded data
   const updateUserById = User.update(spreadedData, {
@@ -186,8 +167,25 @@ function updateUserDetails(req, res) {
   });
 
   updateUserById
-    .then(updatedUserID => User.findById(updatedUserID[0]))
-    .then(updatedUser => res.status(200).send(updatedUser))
+    .then(updatedUserID => User.findOne({
+      attributes: {
+        exclude: ['password'],
+      },
+      include: [
+        {
+          model: Asset,
+          include: [
+            {
+              model: AssetType,
+            },
+          ],
+        },
+      ],
+      where: {
+        id,
+      },
+    }))
+    .then(updatedUser => res.status(200).send({ updatedUser }))
     .catch(err => res.status(500).send(err));
 }
 

@@ -92,6 +92,9 @@ function loginUser(req, res) {
       },
       include: [{
         model: Asset,
+        include: [{
+          model: AssetType,
+        }],
       }],
       where: {
         email,

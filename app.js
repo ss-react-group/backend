@@ -97,6 +97,17 @@ publicRoutes.post('/user_login', loginUser);
 securesRoutes.get('/user/:id', getUserDetails);
 securesRoutes.patch('/user/:id', updateUserDetails);
 
+
+// Followers
+const {
+  getFollowersForUser,
+  addFollower,
+  removeFollower,
+} = require('./controllers/followers');
+
+securesRoutes.get('/followers/:id', getFollowersForUser);
+securesRoutes.post('/add_new_follower', addFollower);
+securesRoutes.delete('/remove_follower', removeFollower);
 // Comment API
 const {
   addNewComment,

@@ -12,6 +12,10 @@ const {
   AssetType,
 } = require('../models/assets');
 
+
+const {
+  Follower,
+} = require('../models/followers');
 const {
   sequelize,
 } = require('../db');
@@ -23,9 +27,22 @@ function synchronizeTable() {
     foreignKey: 'user_id',
   });
 
+  User.hasMany(Follower, {
+    foreignKey: 'user_id',
+  });
+
+  Follower.belongsTo(User, {
+    foreignKey: 'followed_id',
+  });
+
+  User.hasMany(Follower, {
+    foreignKey: 'followed_id',
+  });
+
   Asset.belongsTo(AssetType, {
     foreignKey: 'type_id',
   });
+
 
   Comment.belongsTo(Post, {
     foreignKey: 'post_id',

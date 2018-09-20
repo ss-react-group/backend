@@ -70,10 +70,12 @@ const {
   updatePost,
   deletePost,
   getAllPosts,
+  getPostForUser,
   searchPostByContext,
 } = require('./controllers/post');
 
 securesRoutes.get('/posts', getAllPosts);
+securesRoutes.get('/posts/:id', getPostForUser);
 securesRoutes.post('/add_new_post', addNewPost);
 securesRoutes.patch('/update_post/:id', updatePost);
 securesRoutes.delete('/delete_post/:id', deletePost);

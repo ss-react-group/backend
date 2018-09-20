@@ -169,6 +169,64 @@ function deletePost(req, res) {
     .catch(err => res.status(500).send(err));
 }
 
+/**
+ * Get posts for user
+ * @param {*} req
+ * @param {*} res
+ */
+function getPostForUser(req, res) {
+  const {
+    params,
+  } = req;
+
+  const {
+    id,
+  } = params;
+
+  if (params && id) {
+    const findAllPost = Post.findAll({
+      where: {
+        author_id: id,
+      },
+      include: [{
+        model: User,
+        include: [{
+          model: Asset,
+          include: [{
+            model: AssetType,
+          }],
+        }],
+      },
+      {
+        model: Comment,
+        include: [{
+          model: User,
+          include: [{
+            model: Asset,
+            include: [{
+              model: AssetType,
+            }],
+          }],
+        }],
+      },
+      ],
+    });
+
+    findAllPost
+      .then((allPosts) => {
+        const allPostsLength = allPosts.length;
+        if (allPostsLength > 0) {
+          res.status(200).send(allPosts);
+        } else {
+          res.status(200).send([]);
+        }
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      });
+  }
+}
+
 
 function searchPostByContext(req, res) {
   const {
@@ -207,5 +265,6 @@ module.exports = {
   updatePost,
   deletePost,
   getAllPosts,
+  getPostForUser,
   searchPostByContext,
 };

@@ -105,7 +105,6 @@ function increaseLikeCounts(req, res) {
       },
     });
 
-
     updateMatchinComment
       .then(() => Comment.findAll())
       .then(allComments => res.status(200).send(allComments))

@@ -82,6 +82,45 @@ function getCommentForPost(req, res) {
 }
 
 /**
+ * Delete comment by id
+ * @param {*} req
+ * @param {*} res
+ */
+function deleteComment(req, res) {
+  const {
+    params,
+  } = req;
+  const {
+    id,
+  } = params;
+
+
+  if (params && id) {
+    const deleteCommentPromise = Comment.destroy({
+      where: {
+        id,
+      },
+    });
+
+    deleteCommentPromise
+      .then((deleted) => {
+        if (deleted) {
+          res.status(200).send({
+            message: 'Comment deleted',
+          });
+        } else {
+          res.status(200).send({
+            error: 'Cannot find comment',
+          });
+        }
+      });
+  } else {
+    res.status(500).send('Pass id of comment');
+  }
+}
+
+
+/**
  * Increase likeCounts
  * @param {*} req
  * @param {*} res
@@ -115,5 +154,6 @@ function increaseLikeCounts(req, res) {
 module.exports = {
   addNewComment,
   getCommentForPost,
+  deleteComment,
   increaseLikeCounts,
 };

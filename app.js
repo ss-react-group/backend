@@ -111,11 +111,13 @@ securesRoutes.delete('/remove_follower', removeFollower);
 // Comment API
 const {
   addNewComment,
+  deleteComment,
   getCommentForPost,
   increaseLikeCounts,
 } = require('./controllers/comment');
 
 securesRoutes.post('/add_new_comment', addNewComment);
+securesRoutes.delete('/delete_comment/:id', deleteComment);
 securesRoutes.get('/comment/:postId', getCommentForPost);
 securesRoutes.patch('/comment/likes/:commentId/:likesCount', increaseLikeCounts);
 
